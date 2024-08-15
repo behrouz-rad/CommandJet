@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.34929.205
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2149247B-D50D-4434-8A85-A14DD749DBC3}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.github\workflows\build.yml = .github\workflows\build.yml
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+		vs-publish.json = vs-publish.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{17B7FF6B-CF87-4C4B-B824-0E5351558A3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandJet", "src\CommandJet\CommandJet.csproj", "{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7BDD069F-D7CA-4029-B5BC-22753607AC14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architecture.Tests", "test\Architecture.Tests\Architecture.Tests.csproj", "{FDF08F11-50A5-4942-98E1-F2E519831928}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|arm64 = Debug|arm64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|arm64 = Release|arm64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|arm64.Build.0 = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|arm64.Deploy.0 = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|x86.Build.0 = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|arm64.ActiveCfg = Release|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|arm64.Build.0 = Release|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|arm64.Deploy.0 = Release|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|x86.ActiveCfg = Release|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|x86.Build.0 = Release|Any CPU
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4}.Release|x86.Deploy.0 = Release|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Debug|arm64.Build.0 = Debug|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Debug|x86.Build.0 = Debug|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Release|arm64.ActiveCfg = Release|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Release|arm64.Build.0 = Release|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Release|x86.ActiveCfg = Release|Any CPU
+		{FDF08F11-50A5-4942-98E1-F2E519831928}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADF699B0-3993-4481-BE6B-8857EAA5DAE4} = {17B7FF6B-CF87-4C4B-B824-0E5351558A3C}
+		{FDF08F11-50A5-4942-98E1-F2E519831928} = {7BDD069F-D7CA-4029-B5BC-22753607AC14}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC913841-D6EC-4C4F-B594-1EBB52BCD558}
+	EndGlobalSection
+EndGlobal

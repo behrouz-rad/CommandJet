@@ -1,0 +1,145 @@
+﻿name: Build Command Jet
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-2022
+    outputs:
+      version: ${{ steps.build-version.outputs.version }}
+    env:
+      base-version: "1.0.0"
+
+    steps:
+    - uses: actions/checkout@v4
+  
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        dotnet-quality: 'ga'
+
+    - name: Install dotnet-format
+      run: dotnet tool install -g dotnet-format --version "8.0.453106" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet8/nuget/v3/index.json
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Calculate version
+      id: build-version
+      run: |
+        git fetch --prune --tags
+        $latestTag = git tag --list --sort=v:refname | tail -1
+
+        if($latestTag) {
+          Write-Host "Latest Tag: " $latestTag
+          $verSegments = $latestTag.Split('.')
+          $lastBuild = $verSegments[2]
+          Write-Host "Latest build number: " $lastBuild
+          $newBuildversion = ([int]::Parse($lastBuild) + 1)
+
+          $baseSegments = "${{ env.base-version }}".Split('.')
+          $major = $baseSegments[0]
+          $minor = $baseSegments[1]
+          
+          $version = "$major.$minor.$newBuildversion"
+        } else {
+          Write-Host "No existing tags found in the repository"
+          Write-Host "Starting with given base version ${{ env.base-version }}"
+          $version = "${{ env.base-version }}"
+        }
+
+        Write-Host "New Version: " $version
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+
+    - name: Build the extension
+      run: |
+        $buildVersion = "${{ steps.build-version.outputs.version }}"
+        Write-Host "Building version $buildVersion"
+        dotnet build --configuration Release --no-restore /p:Version=$buildVersion /p:AssemblyVersion=$buildVersion /p:FileVersion=$buildVersion
+
+    - name: Test
+      run: |
+        $trxPath = "report_files"
+
+        dotnet test `
+          --configuration Release `
+          --no-build `
+          --no-restore `
+          --verbosity normal `
+          --results-directory $trxPath `
+          --logger "console;verbosity=detailed" `
+          --logger "trx;LogFilePrefix=test_report"
+
+        mkdir trxFiles
+        Get-ChildItem -Path $trxPath -Filter *.trx | Move-Item -Destination ./trxFiles
+
+    - name: Generate test report in GitHub summary
+      uses: phoenix-actions/test-reporting@v15
+      if: always()
+      with:
+        name: Unit tests
+        path: trxFiles/**/*.trx
+        reporter: dotnet-trx
+        output-to: step-summary
+        fail-on-error: 'true'
+
+    - name: Check format
+      run: dotnet-format --verify-no-changes --verbosity detailed CommandJet.sln
+
+    - name: Upload package artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ github.event.repository.name }}.vsix
+        path: src/CommandJet/bin/Release/net8.0-windows/**/*.vsix
+        if-no-files-found: error
+
+  publish:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[release]') }}
+    name: Publish
+    needs: build
+    runs-on: windows-2022
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Package artifact
+        uses: actions/download-artifact@v4 
+        with:
+          name: ${{ github.event.repository.name }}.vsix
+
+      - name: Tag and Release
+        id: tag_release
+        uses: softprops/action-gh-release@v2.0.8
+        with:
+          body: Release ${{ needs.build.outputs.version }}
+          tag_name: ${{ needs.build.outputs.version }}
+          generate_release_notes: true
+          files: |
+            **/*.vsix
+
+      - name: Publish extension to Marketplace
+        uses: cezarypiatek/VsixPublisherAction@1.1
+        with:
+          extension-file: '${{ github.event.repository.name }}.vsix'
+          publish-manifest-file: 'vs-publish.json'
+          personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}

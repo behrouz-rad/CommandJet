@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="CommandJetDialog.xaml" />
+    <None Remove="Images\Icon.256.256.png" />
+    <None Remove="Images\Icon.32.32.png" />
+    <None Remove="Resources\LICENSE" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Icon.16.16.png" />
+    <Content Include="Resources\LICENSE" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CommandJetDialog.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" />
+    <PackageReference Include="FluentResults" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Microsoft.VisualStudio.Extensibility.Sdk" />
+    <PackageReference Include="Microsoft.VisualStudio.Extensibility.Build" />
+    <PackageReference Include="SSH.NET" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Architecture.Tests" />
+  </ItemGroup>
+
+</Project>

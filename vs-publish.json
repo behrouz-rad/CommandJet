@@ -1,0 +1,19 @@
+﻿{
+  "$schema": "http://json.schemastore.org/vsix-publish",
+  "categories": [ "coding", "other" ],
+  "identity": {
+    "internalName": "CommandJet"
+  },
+  "overview": "README.md",
+  "priceCategory": "free",
+  "publisher": "BehrouzRad",
+  "private": false,
+  "qna": true,
+  "repo": "https://github.com/behrouz-rad/commandjet",
+  "assetFiles": [
+    {
+      "pathOnDisk": "src\\CommandJet\\Images\\main-form.jpg",
+      "targetPath": "src/CommandJet/Images/main-form.jpg"
+    }
+  ]
+}

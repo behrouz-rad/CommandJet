@@ -1,0 +1,46 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DeploymentScript",
+  "type": "object",
+  "properties": {
+    "PrivateKeyPath": {
+      "type": "string",
+      "description": "Path to the private SSH key used for authentication"
+    },
+    "RemoteAddress": {
+      "type": "string",
+      "description": "Address of the remote server"
+    },
+    "RemoteUsername": {
+      "type": "string",
+      "description": "Username for the remote server"
+    },
+    "ShellCommands": {
+      "type": "array",
+      "description": "List of shell commands to execute",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "description": "Description of the command"
+          },
+          "ProcessName": {
+            "type": "string",
+            "description": "Name of the process to run"
+          },
+          "Arguments": {
+            "type": "string",
+            "description": "Arguments to pass to the process"
+          },
+          "IsRemote": {
+            "type": "boolean",
+            "description": "Indicates if the command is to be run on the remote server"
+          }
+        },
+        "required": [ "Name", "ProcessName", "IsRemote" ]
+      }
+    }
+  },
+  "required": [ "ShellCommands" ]
+}

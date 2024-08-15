@@ -1,0 +1,44 @@
+﻿// This is a sample file
+{
+  "PrivateKeyPath": "./keys/ssh_key",
+  "RemoteAddress": "127.0.0.1",
+  "RemoteUsername": "Administrator",
+  "ShellCommands": [
+    {
+      "Name": "Publishing project",
+      "ProcessName": "dotnet",
+      "Arguments": "publish",
+      "IsRemote": false
+    },
+    {
+      "Name": "Zipping folder",
+      "ProcessName": "powershell",
+      "Arguments": "Get-ChildItem -Path ./bin/Release/net8.0/* | Where-Object {$_.Name -ne 'appsettings.json' } | Compress-Archive -DestinationPath ./bin/Release/service_deploy.zip -Force",
+      "IsRemote": false
+    },
+    {
+      "Name": "Copying to remote server",
+      "ProcessName": "copy-file-ssh",
+      "Arguments": "-s ./bin/Release/service_deploy.zip -d \"/C:/Program Files/MyApp/service_deploy.zip\"",
+      "IsRemote": true
+    },
+    {
+      "Name": "Stopping service",
+      "ProcessName": "powershell",
+      "Arguments": "Stop-Service -Name 'Service' -Force",
+      "IsRemote": true
+    },
+    {
+      "Name": "Extracting archive",
+      "ProcessName": "powershell",
+      "Arguments": "Expand-Archive 'C:/Program Files/MyApp/service_deploy.zip' -DestinationPath 'C:/Program Files/MyApp/Service' -Force",
+      "IsRemote": true
+    },
+    {
+      "Name": "Starting service",
+      "ProcessName": "powershell",
+      "Arguments": "Start-Service -Name 'Service'",
+      "IsRemote": true
+    }
+  ]
+}
